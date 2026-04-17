@@ -9,11 +9,7 @@ public class MainMenuHandler : MonoBehaviour
 
     public void StartGame()
     {
-        // 1. Play the cutscene
-        cutscenePlayer.Play();
-
-        // 2. Subscribe to the "loopPointReached" event (when the video ends)
-        cutscenePlayer.loopPointReached += TransitionToScene;
+        SceneManager.LoadScene("Begin Cutscene"); 
     }
 
     void TransitionToScene(VideoPlayer vp)
