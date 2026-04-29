@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class ComputerInteract : MonoBehaviour
 {
@@ -8,14 +9,14 @@ public class ComputerInteract : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // left click
+        if (Keyboard.current.eKey.wasPressedThisFrame)
         {
-            Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, interactDistance))
             {
-                if (hit.transform == transform)
+                if (hit.transform == transform || hit.transform.IsChildOf(transform))
                 {
                     SceneManager.LoadScene("Computer screen");
                 }
