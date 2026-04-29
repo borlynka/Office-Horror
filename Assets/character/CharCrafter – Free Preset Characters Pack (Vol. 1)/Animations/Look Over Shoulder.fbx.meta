@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5dab94548a9994214b24decab4e3ff70
+guid: 00a9dcd54305f4210b13fbf75849a0d3
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -60,11 +60,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: sittalking
+      name: lookback
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 1322
+      lastFrame: 113
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
