@@ -15,19 +15,20 @@ public class NPCAnimationStarter : MonoBehaviour
 
     void Start()
     {
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
 
         if (npcType == NPCType.Sitting)
         {
             anim.SetTrigger("Sit");
         }
-        else if (npcType == NPCType.Walking)
-        {
-            anim.SetTrigger("Walk");
-        }
         else if (npcType == NPCType.Talking)
         {
             anim.SetTrigger("Talk");
+        }
+        else if (npcType == NPCType.Walking)
+        {
+            // Do nothing here.
+            // Walking NPC animation is controlled by NPCWalkBetweenPoints.
         }
     }
 
