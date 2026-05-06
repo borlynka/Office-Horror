@@ -14,6 +14,8 @@ public class ExitComputer : MonoBehaviour
     {
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
+            HorrorProgress.fearLevel+=2;
+
             SceneManager.LoadScene("Main Game");
         }
     }
