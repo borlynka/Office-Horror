@@ -14,7 +14,20 @@ public class ExitComputer : MonoBehaviour
     {
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
-            HorrorProgress.fearLevel+=2;
+            HorrorProgress.playerOnComputer = false;
+
+            if (!HorrorProgress.completedComputerTask)
+            {
+                HorrorProgress.computerExitCount++;
+
+                int fearIncrease = Mathf.Min(2, HorrorProgress.computerExitCount);
+                HorrorProgress.fearLevel += fearIncrease;
+            }
+
+            HorrorProgress.shouldStartThreatCheck = true;
+
+            // allow only one pass-by warning after each computer exit
+            HorrorProgress.passByWarningUsedThisExit = false;
 
             SceneManager.LoadScene("Main Game");
         }

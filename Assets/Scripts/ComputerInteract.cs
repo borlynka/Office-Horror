@@ -18,6 +18,7 @@ public class ComputerInteract : MonoBehaviour
             {
                 if (hit.transform == transform || hit.transform.IsChildOf(transform))
                 {
+                    HorrorProgress.playerOnComputer = true;
                     SceneManager.LoadScene("Computer screen");
                 }
             }
