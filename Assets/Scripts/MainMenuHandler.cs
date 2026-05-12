@@ -11,7 +11,9 @@ public class MainMenuHandler : MonoBehaviour
     {
         SceneManager.LoadScene("Begin Cutscene"); 
     }
-
+    public void options(){
+        SceneManager.LoadScene("options");
+    }
     void TransitionToScene(VideoPlayer vp)
     {
         // 3. Load the actual game level
