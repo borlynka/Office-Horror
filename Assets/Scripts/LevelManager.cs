@@ -5,9 +5,22 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance;
 
     public int correctClicks = 0;
-    public int requiredClicks = 2;
+    public int requiredClicks = 5;
 
-    public GameObject employeeRecordsButton;
+    [Header("Unlock Icons")]
+    public GameObject pdf1Icon;
+    public GameObject pdf2Icon;
+    public GameObject notesIcon;
+    public GameObject googleIcon;
+
+    [Header("UI")]
+    public GameObject popupMessage;
+
+    [Header("Effects")]
+    public Animator accountingAnimator;
+    public AudioSource glitchSound;
+
+    private bool completed = false;
 
     void Awake()
     {
@@ -18,15 +31,32 @@ public class LevelManager : MonoBehaviour
     {
         correctClicks++;
 
-        if (correctClicks >= requiredClicks)
+        Debug.Log("Correct clues: " + correctClicks);
+
+        if (correctClicks >= requiredClicks && !completed)
         {
-            UnlockNext();
+            completed = true;
+            CompleteLevel1();
         }
     }
 
-    void UnlockNext()
+    void CompleteLevel1()
     {
-        Debug.Log("Level 1 Complete");
-        employeeRecordsButton.SetActive(true);
+        Debug.Log("LEVEL 1 COMPLETE");
+
+        // Play glitch sound
+        glitchSound.Play();
+
+        // Trigger flicker animation
+        accountingAnimator.SetTrigger("Glitch");
+
+        // Unlock icons
+        pdf1Icon.SetActive(true);
+        pdf2Icon.SetActive(true);
+        notesIcon.SetActive(true);
+        googleIcon.SetActive(true);
+
+        // Show popup
+        popupMessage.SetActive(true);
     }
 }
