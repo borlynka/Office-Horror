@@ -51,6 +51,14 @@ public class FearManager : MonoBehaviour
             watcherManager.TrySpawnWatcher();
         }
 
+        OfficeDistortionManager distortionManager =
+            FindObjectOfType<OfficeDistortionManager>();
+
+        if (distortionManager != null)
+        {
+            distortionManager.UpdateOfficeStage();
+        }
+
     }
 
     public static bool CanStartDanger()

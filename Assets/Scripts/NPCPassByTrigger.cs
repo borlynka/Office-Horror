@@ -92,6 +92,9 @@ public class NPCPassByTrigger : MonoBehaviour
                 distortionManager.UpdateOfficeStage();
             }
         }
+
+
+        
     }
 
     void HideWarning()

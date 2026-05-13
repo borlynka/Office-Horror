@@ -2,6 +2,20 @@ using UnityEngine;
 
 public class HorrorSoundManager : MonoBehaviour
 {
+    void Awake()
+    {
+        GameObject[] objs =
+            GameObject.FindGameObjectsWithTag("PersistentAudio");
+
+        if (objs.Length > 1)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        DontDestroyOnLoad(gameObject);
+    }
+
     [System.Serializable]
     public class HorrorSound
     {

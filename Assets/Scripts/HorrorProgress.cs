@@ -10,4 +10,8 @@ public static class HorrorProgress
     public static bool playerOnComputer = false;
 
     public static bool passByWarningUsedThisExit = false;
+
+    public static bool finalBossMode = false;
+
+
 }
