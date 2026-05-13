@@ -11,9 +11,11 @@ public class WatcherNPCManager : MonoBehaviour
 
     private GameObject currentWatcher;
 
+    public int minimumSuspicionLevel = 5;
+
     public void TrySpawnWatcher()
     {
-        if (HorrorProgress.fearLevel < minimumFearLevel)
+        if (HorrorProgress.fearLevel < minimumFearLevel && HorrorProgress.suspicionLevel < minimumSuspicionLevel)
             return;
 
         if (currentWatcher != null)

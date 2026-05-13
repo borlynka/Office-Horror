@@ -16,34 +16,29 @@ public class OfficeDistortionManager : MonoBehaviour
 
     public void UpdateOfficeStage()
     {
+        if (HorrorProgress.finalBossMode || HorrorProgress.fearLevel >= nightmareFearLevel)
+        {
+            SetStage(nightmareOffice);
+        }
+        else if (HorrorProgress.suspicionLevel >= crowdedSuspicionLevel)
+        {
+            SetStage(crowdedOffice);
+        }
+        else
+        {
+            SetStage(normalOffice);
+        }
+    }
+
+    void SetStage(GameObject activeStage)
+    {
         if (normalOffice != null)
-            normalOffice.SetActive(true);
+            normalOffice.SetActive(activeStage == normalOffice);
 
         if (crowdedOffice != null)
-            crowdedOffice.SetActive(false);
+            crowdedOffice.SetActive(activeStage == crowdedOffice);
 
         if (nightmareOffice != null)
-            nightmareOffice.SetActive(false);
-
-        if (HorrorProgress.suspicionLevel >= crowdedSuspicionLevel)
-        {
-            if (normalOffice != null)
-                normalOffice.SetActive(false);
-
-            if (crowdedOffice != null)
-                crowdedOffice.SetActive(true);
-        }
-
-        if (HorrorProgress.fearLevel >= nightmareFearLevel)
-        {
-            if (normalOffice != null)
-                normalOffice.SetActive(false);
-
-            if (crowdedOffice != null)
-                crowdedOffice.SetActive(false);
-
-            if (nightmareOffice != null)
-                nightmareOffice.SetActive(true);
-        }
+            nightmareOffice.SetActive(activeStage == nightmareOffice);
     }
 }

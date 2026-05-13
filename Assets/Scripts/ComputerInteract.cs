@@ -11,6 +11,12 @@ public class ComputerInteract : MonoBehaviour
     {
         if (Keyboard.current.eKey.wasPressedThisFrame)
         {
+
+            if (HorrorProgress.finalBossMode)
+                {
+                    Debug.Log("Computer is no longer available.");
+                    return;
+                }
             Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
             RaycastHit hit;
 
