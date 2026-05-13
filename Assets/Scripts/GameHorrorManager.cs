@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameHorrorManager : MonoBehaviour
 {
@@ -41,30 +42,25 @@ public class GameHorrorManager : MonoBehaviour
     void Awake()
     {
         if (Instance == null)
-        {
             Instance = this;
-        }
         else
-        {
             Destroy(gameObject);
-        }
     }
 
     void Update()
     {
-        // TEST KEY
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Keyboard.current.fKey.wasPressedThisFrame)
         {
-            fearLevel++;
-
-            Debug.Log("Fear Level: " + fearLevel);
+            HorrorProgress.fearLevel++;
+            fearLevel = HorrorProgress.fearLevel;
+            Debug.Log("Fear Level: " + HorrorProgress.fearLevel);
         }
 
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Keyboard.current.gKey.wasPressedThisFrame)
         {
-            suspicionLevel++;
-
-            Debug.Log("Suspicion Level: " + suspicionLevel);
+            HorrorProgress.suspicionLevel++;
+            suspicionLevel = HorrorProgress.suspicionLevel;
+            Debug.Log("Suspicion Level: " + HorrorProgress.suspicionLevel);
         }
     }
 }
