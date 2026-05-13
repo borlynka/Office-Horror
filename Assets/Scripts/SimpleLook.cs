@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class SimpleLook : MonoBehaviour
 {
@@ -10,12 +11,23 @@ public class SimpleLook : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Main Game")
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
     }
 
     void Update()
     {
+        if (SceneManager.GetActiveScene().name != "Main Game")
+            return;
+
         Vector2 mouseDelta = Mouse.current.delta.ReadValue();
 
         float mouseX = mouseDelta.x * mouseSensitivity * Time.deltaTime;

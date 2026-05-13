@@ -6,12 +6,19 @@ public class ExitComputer : MonoBehaviour
 {
     void Start()
     {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        UnlockCursor();
+    }
+
+    void OnEnable()
+    {
+        UnlockCursor();
     }
 
     void Update()
     {
+        // Force cursor visible while in computer scene
+        UnlockCursor();
+
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             HorrorProgress.playerOnComputer = false;
@@ -25,11 +32,15 @@ public class ExitComputer : MonoBehaviour
             }
 
             HorrorProgress.shouldStartThreatCheck = true;
-
-            // allow only one pass-by warning after each computer exit
             HorrorProgress.passByWarningUsedThisExit = false;
 
             SceneManager.LoadScene("Main Game");
         }
+    }
+
+    void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }
