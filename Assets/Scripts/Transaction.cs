@@ -21,15 +21,28 @@ public class Transaction : MonoBehaviour
     {
         if (isSuspicious)
         {
-            Debug.Log("Correct suspicious click");
+            Debug.Log("Correct suspicious click!");
 
             if (img != null)
                 img.color = Color.red;
 
-            LevelManager.Instance.AddCorrect();
+            if (LevelManager.Instance != null)
+            {
+                LevelManager.Instance.AddCorrect();
+            }
+            else
+            {
+                Debug.LogWarning("LevelManager.Instance is missing.");
+            }
 
-            // 🔥 THIS is what connects it to your sticky note system
-            TaskManager.Instance.CompleteTask(1);
+            if (TaskManager.Instance != null)
+            {
+                TaskManager.Instance.CompleteTask(1);
+            }
+            else
+            {
+                Debug.LogWarning("TaskManager.Instance is missing.");
+            }
         }
         else
         {

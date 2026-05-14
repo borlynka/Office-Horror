@@ -3,11 +3,23 @@ using UnityEngine;
 public class OfficeDistortionManager : MonoBehaviour
 {
     public GameObject normalOffice;
-    public GameObject crowdedOffice;
-    public GameObject nightmareOffice;
+    public GameObject crowdedOverlay;
+    public GameObject nightmareOverlay;
+
+    public AudioSource distortionAudio;
 
     public int crowdedSuspicionLevel = 10;
     public int nightmareFearLevel = 12;
+
+    private bool crowdedTriggered = false;
+    private bool nightmareTriggered = false;
+    public CameraShake cameraShake;
+    public float shakeDuration = 0.6f;
+    public float shakeStrength = 0.08f;
+
+    private bool crowdedEventPlayed = false;
+    private bool nightmareEventPlayed = false;
+
 
     void Start()
     {
@@ -16,29 +28,66 @@ public class OfficeDistortionManager : MonoBehaviour
 
     public void UpdateOfficeStage()
     {
-        if (HorrorProgress.finalBossMode || HorrorProgress.fearLevel >= nightmareFearLevel)
+        if (normalOffice != null)
+            normalOffice.SetActive(true);
+
+        if (crowdedOverlay != null)
+            crowdedOverlay.SetActive(false);
+
+        if (nightmareOverlay != null)
+            nightmareOverlay.SetActive(false);
+
+        if (HorrorProgress.suspicionLevel >= crowdedSuspicionLevel)
         {
-            SetStage(nightmareOffice);
+            if (crowdedOverlay != null)
+                crowdedOverlay.SetActive(true);
+
+            if (!crowdedEventPlayed)
+            {
+                crowdedEventPlayed = true;
+
+                PlayDistortionSound();
+
+                if (cameraShake != null)
+                    cameraShake.ShakeBurst(shakeStrength);
+            }
         }
-        else if (HorrorProgress.suspicionLevel >= crowdedSuspicionLevel)
+
+        if (HorrorProgress.finalBossMode ||
+            HorrorProgress.fearLevel >= nightmareFearLevel)
         {
-            SetStage(crowdedOffice);
-        }
-        else
-        {
-            SetStage(normalOffice);
+            if (crowdedOverlay != null)
+                crowdedOverlay.SetActive(true);
+
+            if (nightmareOverlay != null)
+                nightmareOverlay.SetActive(true);
+
+            if (!nightmareEventPlayed)
+            {
+                nightmareEventPlayed = true;
+
+                PlayDistortionSound();
+
+                if (cameraShake != null)
+                    cameraShake.ShakeBurst(shakeStrength * 1.5f);
+            }
         }
     }
 
-    void SetStage(GameObject activeStage)
+    void PlayDistortionSound()
     {
-        if (normalOffice != null)
-            normalOffice.SetActive(activeStage == normalOffice);
+        if (distortionAudio != null)
+            distortionAudio.time = 3f;
+            distortionAudio.Play();
 
-        if (crowdedOffice != null)
-            crowdedOffice.SetActive(activeStage == crowdedOffice);
+            Invoke(nameof(StopDistortionSound), 5f);
 
-        if (nightmareOffice != null)
-            nightmareOffice.SetActive(activeStage == nightmareOffice);
+        if (cameraShake != null)
+            cameraShake.ShakeBurst(shakeStrength);
+    }
+    void StopDistortionSound()
+    {
+        if (distortionAudio != null)
+            distortionAudio.Stop();
     }
 }

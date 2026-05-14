@@ -31,6 +31,7 @@ public class HorrorSoundManager : MonoBehaviour
     public HorrorSound[] scarySounds;
 
     public int minimumFearLevel = 2;
+    private AudioClip lastPlayedClip;
 
     public void TryPlayScarySound()
     {

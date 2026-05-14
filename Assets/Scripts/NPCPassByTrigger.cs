@@ -12,6 +12,8 @@ public class NPCPassByTrigger : MonoBehaviour
     public AudioClip highSuspicionSound;
     public int highSuspicionLevel = 6;
     public int distortionSuspicionLevel = 10;
+
+    public float footstepPlayChance = 0.7f;
     void Start()
     {
         if (warningText != null)
@@ -48,7 +50,7 @@ public class NPCPassByTrigger : MonoBehaviour
             warningText.text = "DON'T LOOK SUSPICIOUS";
         }
 
-        if (warningAudio != null)
+        if (warningAudio != null && Random.value <= footstepPlayChance)
         {
             warningAudio.volume = 1f;
             warningAudio.pitch = 1.2f;
