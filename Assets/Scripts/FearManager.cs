@@ -2,68 +2,95 @@ using UnityEngine;
 
 public class FearManager : MonoBehaviour
 {
-    public Light mainLight;
+    [Header("Fear")]
+    public int maxFearLevel = 12;
 
-    public float normalLight = 1.2f;
-    public float darkestLight = 0.25f;
+    [Header("Fear Increase")]
+    public float normalFearInterval = 35f;
+    public float computerFearInterval = 20f;
+
+    private float fearTimer;
+
+    [Header("Fog Settings")]
+    public bool enableFog = true;
+    public Color fogColor = new Color(0.01f, 0.01f, 0.015f);
+
+    public float minFogDensity = 0.01f;
+    public float maxFogDensity = 0.18f;
+
+    [Header("Lighting")]
+    public Light directionalLight;
+
+    public float maxLightIntensity = 0.45f;
+    public float minLightIntensity = 0f;
 
     void Start()
     {
+        fearTimer = normalFearInterval;
+
         UpdateEnvironment();
+    }
+
+    void Update()
+    {
+        RunFearTimer();
+
+        UpdateEnvironment();
+    }
+
+    void RunFearTimer()
+    {
+        float currentInterval = normalFearInterval;
+
+        if (HorrorProgress.playerOnComputer)
+        {
+            currentInterval = computerFearInterval;
+        }
+
+        fearTimer -= Time.deltaTime;
+
+        if (fearTimer <= 0f)
+        {
+            AddFear(1);
+
+            fearTimer = currentInterval;
+        }
+    }
+
+    public void AddFear(int amount)
+    {
+        HorrorProgress.fearLevel += amount;
+
+        HorrorProgress.fearLevel =
+            Mathf.Clamp(HorrorProgress.fearLevel, 0, maxFearLevel);
+
+        Debug.Log("Fear Increased To: " + HorrorProgress.fearLevel);
     }
 
     public void UpdateEnvironment()
     {
-        int fearLevel = HorrorProgress.fearLevel;
+        float t =
+            Mathf.Clamp01(
+                (float)HorrorProgress.fearLevel / maxFearLevel
+            );
 
-        if (mainLight != null)
+        // FOG
+        RenderSettings.fog = enableFog;
+        RenderSettings.fogMode = FogMode.Exponential;
+        RenderSettings.fogColor = fogColor;
+
+        RenderSettings.fogDensity =
+            Mathf.Lerp(minFogDensity, maxFogDensity, t);
+
+        // DARKNESS
+        if (directionalLight != null)
         {
-            if (fearLevel < 2)
-                mainLight.intensity = 1.2f;   // normal
-            else if (fearLevel < 4)
-                mainLight.intensity = 0.30f;  // suddenly darker
-            else if (fearLevel < 6)
-                mainLight.intensity = 0.05f;  // very dark
-            else
-                mainLight.intensity = 0.005f;  // almost black
+            directionalLight.intensity =
+                Mathf.Lerp(
+                    maxLightIntensity,
+                    minLightIntensity,
+                    t
+                );
         }
-
-        RenderSettings.fog = true;
-
-        RenderSettings.fogColor = new Color(0.02f, 0.02f, 0.025f);
-
-        float t = Mathf.Clamp01(fearLevel / 12f);
-
-        // stronger fog as fear rises
-
-        RenderSettings.fogDensity = Mathf.Lerp(0.01f, 0.09f, t);
-
-        HorrorSoundManager soundManager = FindObjectOfType<HorrorSoundManager>();
-
-        if (soundManager != null)
-        {
-            soundManager.TryPlayScarySound();
-        }
-
-        WatcherNPCManager watcherManager = FindObjectOfType<WatcherNPCManager>();
-
-        if (watcherManager != null)
-        {
-            watcherManager.TrySpawnWatcher();
-        }
-
-        OfficeDistortionManager distortionManager =
-            FindObjectOfType<OfficeDistortionManager>();
-
-        if (distortionManager != null)
-        {
-            distortionManager.UpdateOfficeStage();
-        }
-
-    }
-
-    public static bool CanStartDanger()
-    {
-        return HorrorProgress.fearLevel >= 2;
     }
 }
