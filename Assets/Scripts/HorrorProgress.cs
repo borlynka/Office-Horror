@@ -13,5 +13,8 @@ public static class HorrorProgress
 
     public static bool finalBossMode = false;
 
+    public static bool computerLocked = false;
+    public static bool monitorFailurePlayed = false;
+
 
 }

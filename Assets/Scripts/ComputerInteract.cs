@@ -11,8 +11,12 @@ public class ComputerInteract : MonoBehaviour
     {
         if (Keyboard.current.eKey.wasPressedThisFrame)
         {
-
-            if (HorrorProgress.finalBossMode)
+            if (HorrorProgress.computerLocked)
+                {
+                    Debug.Log("Computer is temporarily unavailable.");
+                    return;
+                }
+            if (HorrorProgress.finalBossMode || HorrorProgress.computerLocked)
                 {
                     Debug.Log("Computer is no longer available.");
                     return;

@@ -4,14 +4,16 @@ using TMPro;
 public class ComputerWarningManager : MonoBehaviour
 {
     public TextMeshProUGUI warningText;
-    public AudioSource warningAudio;
+
+    [Header("Random Warning Sounds")]
+    public AudioSource warningAudioSource;
+    public AudioClip[] warningSounds;
 
     public float minTime = 12f;
     public float maxTime = 22f;
     public float warningDuration = 8f;
 
     public int ignoredWarnings = 0;
-    public ComputerGlitchEffect glitchEffect;
 
     public string[] warningMessages =
     {
@@ -23,6 +25,7 @@ public class ComputerWarningManager : MonoBehaviour
 
     private float timer;
     private bool warningActive = false;
+    private AudioClip lastPlayedClip;
 
     void Start()
     {
@@ -40,9 +43,7 @@ public class ComputerWarningManager : MonoBehaviour
         timer -= Time.deltaTime;
 
         if (timer <= 0f)
-        {
             TriggerWarning();
-        }
     }
 
     void TriggerWarning()
@@ -57,13 +58,35 @@ public class ComputerWarningManager : MonoBehaviour
                 "\nPress SPACE to check.";
         }
 
-        if (warningAudio != null)
-        {
-            warningAudio.Stop();
-            warningAudio.Play();
-        }
+        PlayRandomWarningSound();
 
         Invoke(nameof(WarningIgnored), warningDuration);
+    }
+
+    void PlayRandomWarningSound()
+    {
+        if (warningAudioSource == null || warningSounds == null || warningSounds.Length == 0)
+            return;
+
+        AudioClip chosen = warningSounds[Random.Range(0, warningSounds.Length)];
+
+        if (warningSounds.Length > 1)
+        {
+            int safety = 0;
+            while (chosen == lastPlayedClip && safety < 10)
+            {
+                chosen = warningSounds[Random.Range(0, warningSounds.Length)];
+                safety++;
+            }
+        }
+
+        lastPlayedClip = chosen;
+
+        warningAudioSource.Stop();
+        warningAudioSource.clip = chosen;
+        warningAudioSource.volume = 0.35f;
+        warningAudioSource.pitch = Random.Range(0.9f, 1.1f);
+        warningAudioSource.Play();
     }
 
     void WarningIgnored()
@@ -72,10 +95,6 @@ public class ComputerWarningManager : MonoBehaviour
         ignoredWarnings++;
 
         HorrorProgress.fearLevel += 1;
-        if (glitchEffect != null)
-        {
-            glitchEffect.PlayGlitch();
-        }
 
         if (warningText != null)
         {
@@ -90,9 +109,7 @@ public class ComputerWarningManager : MonoBehaviour
         }
 
         if (ignoredWarnings == 2)
-        {
             ResetComputerProgress();
-        }
 
         if (ignoredWarnings >= 3)
         {
@@ -118,8 +135,6 @@ public class ComputerWarningManager : MonoBehaviour
     void ResetComputerProgress()
     {
         if (TaskManager.Instance != null)
-        {
             TaskManager.Instance.ResetAllTasks();
-        }
     }
 }
