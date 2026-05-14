@@ -41,4 +41,12 @@ public class TaskManager : MonoBehaviour
                 break;
         }
     }
+    public void ResetAllTasks()
+    {
+        task1.text = "[ ] Review pending invoices";
+        task2.text = "[ ] Verify employee records";
+        task3.text = "[ ] Read compliance report";
+        task4.text = "[ ] Search vendor 'Null Co.'";
+        task5.text = "[ ] Finish audit notes";
+    }
 }
