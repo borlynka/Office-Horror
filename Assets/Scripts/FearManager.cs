@@ -21,21 +21,22 @@ public class FearManager : MonoBehaviour
             if (fearLevel < 2)
                 mainLight.intensity = 1.2f;   // normal
             else if (fearLevel < 4)
-                mainLight.intensity = 0.45f;  // suddenly darker
+                mainLight.intensity = 0.30f;  // suddenly darker
             else if (fearLevel < 6)
-                mainLight.intensity = 0.15f;  // very dark
+                mainLight.intensity = 0.05f;  // very dark
             else
-                mainLight.intensity = 0.03f;  // almost black
+                mainLight.intensity = 0.005f;  // almost black
         }
 
         RenderSettings.fog = true;
-        RenderSettings.fogDensity = 0.01f + fearLevel * 0.012f;
 
-        RenderSettings.ambientLight = Color.Lerp(
-            Color.white,
-            new Color(0.05f, 0.05f, 0.08f),
-            Mathf.Clamp01(fearLevel / 6f)
-        );
+        RenderSettings.fogColor = new Color(0.02f, 0.02f, 0.025f);
+
+        float t = Mathf.Clamp01(fearLevel / 12f);
+
+        // stronger fog as fear rises
+
+        RenderSettings.fogDensity = Mathf.Lerp(0.01f, 0.09f, t);
 
         HorrorSoundManager soundManager = FindObjectOfType<HorrorSoundManager>();
 

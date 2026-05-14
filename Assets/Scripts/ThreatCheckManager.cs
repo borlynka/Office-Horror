@@ -95,7 +95,7 @@ public class ThreatCheckManager : MonoBehaviour
     {
         threatCheckActive = false;
 
-        HorrorProgress.fearLevel = Mathf.Max(0, HorrorProgress.fearLevel - 1);
+        HorrorProgress.suspicionLevel = Mathf.Max(0, HorrorProgress.suspicionLevel - 1);
 
         FearManager fearManager = FindObjectOfType<FearManager>();
         if (fearManager != null)

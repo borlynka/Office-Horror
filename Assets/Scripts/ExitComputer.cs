@@ -28,6 +28,12 @@ public class ExitComputer : MonoBehaviour
                 HorrorProgress.computerExitCount++;
 
                 int fearIncrease = Mathf.Min(2, HorrorProgress.computerExitCount);
+
+                if (HorrorProgress.computerExitCount >= 4)
+                {
+                    fearIncrease = 3;
+                }
+
                 HorrorProgress.fearLevel += fearIncrease;
             }
 
