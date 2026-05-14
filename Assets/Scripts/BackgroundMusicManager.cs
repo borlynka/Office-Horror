@@ -2,19 +2,18 @@ using UnityEngine;
 
 public class BackgroundMusicManager : MonoBehaviour
 {
+    public static BackgroundMusicManager Instance;
 
 
     void Awake()
     {
-        GameObject[] objs =
-            GameObject.FindGameObjectsWithTag("PersistentAudio");
-
-        if (objs.Length > 1)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
+        Instance = this;
         DontDestroyOnLoad(gameObject);
     }
     public AudioSource officeAmbience;
