@@ -28,4 +28,12 @@ public class WindowManager : MonoBehaviour
         countSus++;
         if(countSus>=4) SceneManager.LoadScene("Good Ending");
     }
+
+    public void chromePress(){
+        SceneManager.LoadScene("email_bgg");
+    }
+
+    public void backToTheCS(){
+        SceneManager.LoadScene("Computer screen");
+    }
 }
