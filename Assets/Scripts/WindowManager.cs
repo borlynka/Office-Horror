@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WindowManager : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class WindowManager : MonoBehaviour
     public GameObject employeeWindow;
     public GameObject emailWindow;
     public GameObject hiddenFolderWindow;
+    public int countSus;
 
     public void OpenWindow(GameObject window)
     {
@@ -19,5 +21,11 @@ public class WindowManager : MonoBehaviour
         employeeWindow.SetActive(false);
         emailWindow.SetActive(false);
         hiddenFolderWindow.SetActive(false);
+    }
+
+    public void susPress()
+    {
+        countSus++;
+        if(countSus>=4) SceneManager.LoadScene("Good Ending");
     }
 }
