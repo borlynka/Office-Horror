@@ -79,6 +79,7 @@ public class BossJumpscareManager : MonoBehaviour
         ShowBlackScreen(1f);
         yield return new WaitForSeconds(1f);
 
+        HorrorProgress.Reset();
         SceneManager.LoadScene("Game Over");
     }
 

@@ -15,6 +15,22 @@ public static class HorrorProgress
 
     public static bool computerLocked = false;
     public static bool monitorFailurePlayed = false;
+    public static void Reset()
+    {
+        fearLevel = 0;
+        suspicionLevel = 0;
+        computerExitCount = 0;
 
+        shouldStartThreatCheck = false;
+        hasShownControlTips = false;
+        completedComputerTask = false;
+        playerOnComputer = false;
+
+        passByWarningUsedThisExit = false;
+        finalBossMode = false;
+
+        computerLocked = false;
+        monitorFailurePlayed = false;
+    }
 
 }
